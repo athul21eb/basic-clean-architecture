@@ -1,0 +1,16 @@
+
+services:
+  mssql:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    container_name: mssql_server
+    environment:
+      ACCEPT_EULA: "Y"
+      # Change this to a strong, compliant password (e.g., uses upper, lower, digit, and symbol)
+      SA_PASSWORD: "S3cR3tP@sswOrd!" # <--- USE A STRONG PASSWORD HERE
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+volumes:
+  mssql_data:
