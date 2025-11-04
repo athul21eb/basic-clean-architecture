@@ -1,4 +1,5 @@
 import {
+  isBoolean,
   IsEmail,
   IsNotEmpty,
   IsStrongPassword,
@@ -23,4 +24,9 @@ export class CreateUserDto {
     minSymbols: 1,
   })
   password!: string;
+
+  @IsNotEmpty()
+  roleId!: string;
+  @IsNotEmpty()
+  isActive!: boolean;
 }

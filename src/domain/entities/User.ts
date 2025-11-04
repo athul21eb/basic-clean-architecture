@@ -1,14 +1,14 @@
+import { Role } from "./Role";
+
 export class User {
   id!: string;
   username!: string;
   email!: string;
   password!: string;
-  roleId!:string;
-  createdAt!: string;
-  updatedAt!: string;
+  role!:Role;
+  createdAt!: Date;
+  updatedAt!: Date;
   isActive!: boolean;
 
-  constructor(data?: Partial<User>) {
-    Object.assign(this, data);
-  }
+
 }

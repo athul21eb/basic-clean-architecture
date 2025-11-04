@@ -1,13 +1,30 @@
-import { IUserRepository } from '../../domain/repositories/IUserRepository';
-import { User } from '../../domain/entities/User';
-import { CreateUserDto } from '../dto/createUserDto.dto';
-import { UpdateUserDto } from '../dto/updateUserDto.dto';
+import { IUserRepository } from "../../domain/repositories/IUserRepository";
+import { User } from "../../domain/entities/User";
+import { CreateUserDto } from "../dto/createUserDto.dto";
+import { UpdateUserDto } from "../dto/updateUserDto.dto";
+import { v4 as uuidV4 } from "uuid";
+import { validate } from "class-validator";
+import { IRoleRepository } from "../../domain/repositories/IRoleRepository";
 
 export class UserService {
-  constructor(private userRepository: IUserRepository) {}
+  constructor(private userRepository: IUserRepository ,private roleRepository: IRoleRepository) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<User | null> {
-    const newUser = new User(createUserDto);
+
+ const roleExist = await this.roleRepository.getRoleById(createUserDto.roleId);
+ if(!roleExist) throw new Error("Role not found");
+
+    const newUser: User = {
+      id: uuidV4(),
+      username: createUserDto.username,
+      email: createUserDto.email,
+      password: createUserDto.password,
+      role :roleExist,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isActive: createUserDto.isActive,
+    };
+
     return this.userRepository.createUser(newUser);
   }
 
